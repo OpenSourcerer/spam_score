@@ -31,8 +31,14 @@ class SpamScore{
 	 public function scoreText($text)
 	 {
 		$noNoWords = $this->readXML(SPAMWORDSFILE);
-		foreach($noNoWords as $word){
-			$this->score += $word->score * substr_count($text, $word->palabra);
+		foreach ($noNoWords as $word) {
+			if (COUNTMULTIPLE) { 
+				$this->score += $word->score * substr_count(strtoupper($text), strtoupper($word->palabra));
+			} else {
+				if (substr_count(strtoupper($text), strtoupper($word->palabra))) {
+					$this->score += $word->score;
+				}
+			}
 		}
 		return $this->score;
 	 }
