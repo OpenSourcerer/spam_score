@@ -1,8 +1,11 @@
 <?php
 
-use spamScorer;
+require_once("spamScorer.class.php");
 
-class SpamScoreTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class SpamScoreTest extends TestCase
+
 {
 	/**
 	 * @param String $text | Email Text to Score
@@ -13,7 +16,7 @@ class SpamScoreTest extends \PHPUnit_Framework_TestCase
 	{
 		$scorer = new SpamScore();
 		$score = $scorer->scoreText($text);
-		$this->assertEquals($score, 0);
+		$this->assertEquals(0, $score);
 		$this->assertTrue($scorer->shouldSendEmail());
 	}
 	
@@ -26,7 +29,7 @@ class SpamScoreTest extends \PHPUnit_Framework_TestCase
 	{
 		$scorer = new SpamScore();
 		$score = $scorer->scoreText($text);
-		$this->assertEquals($score, $expected);
+		$this->assertEquals($expected, $score);
 		$this->assertTrue($scorer->shouldSendEmail());
 	}
 	
@@ -39,7 +42,7 @@ class SpamScoreTest extends \PHPUnit_Framework_TestCase
 	{
 		$scorer = new SpamScore();
 		$score = $scorer->scoreText($text);
-		$this->assertEquals($score, $expected);
+		$this->assertEquals($expected, $score);
 		$this->assertFalse($scorer->shouldSendEmail());
 	}
 	
@@ -69,7 +72,7 @@ class SpamScoreTest extends \PHPUnit_Framework_TestCase
 	function providerNoSend()
 	{
 		return array(
-			array("With Our Super Duper Mail Enhancement Pillz, you'll have a Wonder Wiener", 12),
+			array("With Our Super Duper Mail Enhancement Pillz, you'll have a Wonder Weener", 12),
 			array("Bawls", 11)
 		);
 	}

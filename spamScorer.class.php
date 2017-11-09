@@ -6,7 +6,7 @@ class SpamScore{
 	/*
 	 * int $score | Spam Score
    	 */
-	private var $score;
+	private $score;
 	
 	function __construct()
 	{
@@ -32,7 +32,7 @@ class SpamScore{
 	 {
 		$noNoWords = $this->readXML(SPAMWORDSFILE);
 		foreach($noNoWords as $word){
-			$this->score = $word->score * substr_count($text, $word->palabra);
+			$this->score += $word->score * substr_count($text, $word->palabra);
 		}
 		return $this->score;
 	 }
