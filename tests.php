@@ -5,6 +5,7 @@ require_once("spamScorer.class.php");
 use PHPUnit\Framework\TestCase;
 
 class SpamScoreTest extends TestCase
+
 {
 	/**
 	 * @param String $text | Email Text to Score
