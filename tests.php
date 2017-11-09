@@ -2,7 +2,7 @@
 
 use spamScorer;
 
-class URLTest extends \PHPUnit_Framework_TestCase
+class SpamScoreTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @param String $text | Email Text to Score
