@@ -45,6 +45,19 @@ class SpamScoreTest extends TestCase
 		$this->assertEquals($expected, $score);
 		$this->assertFalse($scorer->shouldSendEmail());
 	}
+
+	/**
+	 * @param String $text | Email Text to Score
+	 * @param int $expected | Expected Score
+	 * @dataProvider providerMixedCaseSpam
+	 */
+	function testMixedCase($text, $expected)
+	{
+		$scorer = new SpamScore();
+		$score = $scorer->scoreText($text);
+		$this->assertEquals($expected, $score);
+		$this->assertTrue($scorer->shouldSendEmail());
+	}
 	
 	function providerZeros()
 	{
@@ -67,6 +80,17 @@ class SpamScoreTest extends TestCase
 			array("Super Duper Mail Enhancement Pillz", 7),
 			array("Tired of Ineffective Direct Mail campaigns?  Try a Mail Enhancement!", 7)
 		);
+	}
+	
+	function providerMixedCaseSpam()
+	{
+		return array(
+			array("Enlarge your WieNeR Today!", 2),
+			array("Roast WIENERS over a campfire", 2),
+			array("Super Duper MaIL Enhancement Pillz", 7),
+			array("Tired of Ineffective Direct Mail campaigns?  Try a Mail ENHANCEMENT!", 7),
+			array("WONDER WEENER", 5),
+		);		
 	}
 	
 	function providerNoSend()
