@@ -3,16 +3,37 @@
 require_once("config.php");
 
 class SpamScore{
-	/*
+	/**
 	 * int $score | Spam Score
    	 */
 	private $score;
 	
-	function __construct()
+	/**
+	 * boolean $countmultiple | Whether or not to count multiple occurences of a string
+	 */ 
+	 private $countmultiple;
+	 
+	function __construct($countmultiple = true)
 	{
 		$this->score = 0;
+		$this->setCountMultiple($countmultiple);
 	}
 	
+	/**
+	 * @param boolean $countmultiple | Whether or not to count multiple occurences of a string
+	 */
+	public function setCountMultiple($countmultiple)
+	{
+		$this->countmultiple = $countmultiple;
+	}
+	
+	/**
+	 * @return boolean $this->countmultiple
+	 */ 
+	public function getCountMultiple()
+	{
+		return $this->countmultiple;
+	}
 	/**
 	 * Reads XML File to Array
 	 * @param String $file | XML file path
@@ -32,7 +53,7 @@ class SpamScore{
 	 {
 		$noNoWords = $this->readXML(SPAMWORDSFILE);
 		foreach ($noNoWords as $word) {
-			if (COUNTMULTIPLE) { 
+			if ($this->getCountMultiple()) { 
 				$this->score += $word->score * substr_count(strtoupper($text), strtoupper($word->palabra));
 			} else {
 				if (substr_count(strtoupper($text), strtoupper($word->palabra))) {

@@ -59,6 +59,30 @@ class SpamScoreTest extends TestCase
 		$this->assertTrue($scorer->shouldSendEmail());
 	}
 	
+	/**
+	 * @param String $text | Email Text to Score
+	 * @param int $expected | Expected Score
+	 * @dataProvider providerMultipleCountTrue
+	 */
+	function testCountMultipleTrue($text, $expected)
+	{
+		$scorer = new SpamScore();  //$countmultiple defaults to true
+		$score = $scorer->scoreText($text);
+		$this->assertEquals($expected, $score);
+	}
+	
+	/**
+	 * @param String $text | Email Text to Score
+	 * @param int $expected | Expected Score
+	 * @dataProvider providerMultipleCountFalse
+	 */
+	function testCountMultipleFalse($text, $expected)
+	{
+		$scorer = new SpamScore(false);
+		$score = $scorer->scoreText($text);
+		$this->assertEquals($expected, $score);
+	}
+	
 	function providerZeros()
 	{
 		return array(
@@ -98,6 +122,23 @@ class SpamScoreTest extends TestCase
 		return array(
 			array("With Our Super Duper Mail Enhancement Pillz, you'll have a Wonder Weener", 12),
 			array("Bawls", 11)
+		);
+	}
+	
+	function providerMultipleCountTrue()
+	{
+		return array(
+			array("Wiener Wiener Chicken Diener", 4),
+			array("Oh I'm PoopEye the Sailor Man, Poop Poop!", 6),
+			array("Bawlsy Bawls", 22)
+		);
+	}
+	function providerMultipleCountFalse()
+	{
+		return array(
+			array("Wiener Wiener Chicken Diener", 2),
+			array("Oh I'm PoopEye the Sailor Man, Poop Poop!", 2),
+			array("Bawlsy Bawls", 11)
 		);
 	}
 }
